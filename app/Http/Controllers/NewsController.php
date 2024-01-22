@@ -84,4 +84,16 @@ class NewsController extends Controller
 
         return redirect()->route('news.index');
     }
+
+    public function home()
+    {
+        $news = News::all();
+        return view('list', ['data' => $news]);
+    }
+
+    public function details(News $news)
+    {
+        $newsRes = DB::table('news')->join('users', 'news.user_id', '=', 'users.id')->select(['users.name', 'news.created_at', 'news.title', 'news.content', 'news.id'])->where('news.id', $news->id)->first();
+        return view('details', ['data' => $newsRes]);
+    }
 }

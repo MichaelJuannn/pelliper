@@ -19,11 +19,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::controller(NewsController::class)->group(function () {
+    Route::get('/news', 'home')->name('news.home');
+    Route::get('/news/{news}', 'details')->name('news.details');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('dashboard/news', NewsController::class);
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
